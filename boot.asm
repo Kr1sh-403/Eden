@@ -25,6 +25,8 @@ start:
     mov al, 'o'
     int 0x10
 
+    mov al, ' '
+    int 0x10
     ; -------------------------
     ; Load kernel from disk
     ; -------------------------

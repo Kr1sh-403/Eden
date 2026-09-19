@@ -1,21 +1,33 @@
-BITS 16
-ORG 0x1000
+bits 16
+org 0x1000
 
 start:
     mov si, message
+    call print_string
 
-print:
-    lodsb
-    cmp al, 0
-    je halt
+keyboard_loop:
+    mov ah, 0x00
+    int 0x16
 
     mov ah, 0x0E
     int 0x10
-    jmp print
 
-halt:
-    cli
-    hlt
-    jmp halt
+    jmp keyboard_loop
 
-message db "Eden Kernal Started!", 0
+
+print_string:
+    lodsb
+    cmp al, 0
+    je .done
+
+    mov ah, 0x0E
+    int 0x10
+
+    jmp print_string
+
+.done:
+    ret
+
+
+message db 'Welcome to Eden!', 13, 10
+        db 'Eden> ', 0
